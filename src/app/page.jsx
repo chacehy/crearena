@@ -308,16 +308,28 @@ export default function Home() {
             </p>
             <div className="stats-container-center">
               <div className="stat-item-center">
-                <div className="stat-number">+136</div>
-                <div className="stat-label">Startups Accelerated</div>
+                <div className="stat-number">40+</div>
+                <div className="stat-label">Startups Backed</div>
               </div>
               <div className="stat-item-center">
-                <div className="stat-number">$2.4B+</div>
-                <div className="stat-label">Capital Raised</div>
+                <div className="stat-number">5</div>
+                <div className="stat-label">Sectors: Agritech, Insurtech, Fintech, Proptech, Logtech</div>
               </div>
               <div className="stat-item-center">
-                <div className="stat-number">98%</div>
-                <div className="stat-label">Retention Rate</div>
+                <div className="stat-number">$50K+</div>
+                <div className="stat-label">Pre-Seed Funding Entry Point</div>
+              </div>
+              <div className="stat-item-center">
+                <div className="stat-number text-stat">Pre-Seed / Angel</div>
+                <div className="stat-label">Deep Investor Networks</div>
+              </div>
+              <div className="stat-item-center">
+                <div className="stat-number">4+</div>
+                <div className="stat-label">Open Innovations</div>
+              </div>
+              <div className="stat-item-center">
+                <div className="stat-number text-stat">Family Offices</div>
+                <div className="stat-label">Exclusive Network Access</div>
               </div>
             </div>
           </div>
