@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { TextHighlighter } from "@/components/ui/text-highlighter";
 
 // Dynamically import ThreeCanvas to bypass Server-Side Rendering (SSR) errors
 const ThreeCanvas = dynamic(() => import("@/components/ThreeCanvas"), {
@@ -32,6 +33,94 @@ const BrandLogo = () => (
   </svg>
 );
 
+// High-fidelity Mock Founder Profiles for Portfolio Brands
+const brandFounders = {
+  "Ai Gridd": {
+    name: "Elena Rostova",
+    role: "Founder & Chief Architect",
+    bio: "Former Lead AI Scientist at OpenAI. Building decentralized neural grid networks.",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
+    stats: "Cohort VI // Infrastructure"
+  },
+  "Animax": {
+    name: "Marcus Vance",
+    role: "Co-Founder & CEO",
+    bio: "Ex-Pixar Technical Director. Revolutionizing real-time 3D animation pipelines with generative models.",
+    avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200",
+    stats: "Cohort VI // Gen Media"
+  },
+  "Brandium": {
+    name: "Chloe de Silva",
+    role: "Founder & Creative Director",
+    bio: "Award-winning designer. Automating enterprise brand identity systems with semantic design agents.",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
+    stats: "Cohort V // Branding AI"
+  },
+  "Garden Of Babylone": {
+    name: "Samir Al-Jamil",
+    role: "Founder & CEO",
+    bio: "Agritech pioneer. Creating automated vertical farming systems optimized by machine learning.",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+    stats: "Cohort VI // Smart Agri"
+  },
+  "Moushir": {
+    name: "Nadir Halawi",
+    role: "Co-Founder & CEO",
+    bio: "Ex-DHL Logistics Lead. Streamlining cross-border import-export clearance through real-time telemetry.",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
+    stats: "Cohort IV // Logistics"
+  },
+  "Tamwyl": {
+    name: "Layla Belfort",
+    role: "Co-Founder & Managing Partner",
+    bio: "Ex-Goldman Sachs Fintech VP. Decarbonizing SME trade finance pipelines across emerging markets.",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
+    stats: "Cohort VI // Fintech"
+  },
+  "candidli": {
+    name: "Toby Mercer",
+    role: "Founder & CEO",
+    bio: "HR tech innovator. Eliminating recruiter bias through anonymous zero-knowledge credential checks.",
+    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200",
+    stats: "Cohort V // HR Tech"
+  },
+  "click and win": {
+    name: "Jin-Woo Park",
+    role: "Co-Founder & Product Lead",
+    bio: "Ex-Tencent Senior PM. Scaling micro-transaction gaming platforms using high-throughput state networks.",
+    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=200",
+    stats: "Cohort VI // Web3 Play"
+  },
+  "confidrive": {
+    name: "Sophia Martinez",
+    role: "Founder & CEO",
+    bio: "Autonomous vehicle security expert. Securing autonomous fleet telemetry through decentralized edge ledgers.",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
+    stats: "Cohort VI // Autonomous"
+  },
+  "content is king": {
+    name: "Arthur Pendelton",
+    role: "Founder & CEO",
+    bio: "Digital media veteran. Empowering independent content creators with dynamic IP licensing engines.",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200",
+    stats: "Cohort V // IP Licensing"
+  },
+  "depanini": {
+    name: "Yassine Mansour",
+    role: "Founder & CEO",
+    bio: "On-demand economy expert. Optimizing hyper-local emergency maintenance dispatch networks.",
+    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
+    stats: "Cohort VI // Gig Economy"
+  },
+  "piassa": {
+    name: "Amara Okoye",
+    role: "Co-Founder & CEO",
+    bio: "Fintech builder. Building hyper-local digital payment gateways for informal retail merchants in West Africa.",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200",
+    stats: "Cohort VI // Payments"
+  }
+};
+
 export default function Home() {
   const containerRef = useRef(null);
 
@@ -56,9 +145,18 @@ export default function Home() {
     const cursor = document.querySelector(".custom-cursor");
     const follower = document.querySelector(".custom-cursor-follower");
 
+    const heroRight = document.querySelector(".hero-right");
+
     const onMouseMove = contextSafe((e) => {
       gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.05, overwrite: "auto" });
       gsap.to(follower, { x: e.clientX, y: e.clientY, duration: 0.15, overwrite: "auto" });
+      if (heroRight) {
+        const rect = heroRight.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        heroRight.style.setProperty("--mouse-x", `${x}%`);
+        heroRight.style.setProperty("--mouse-y", `${y}%`);
+      }
     });
 
     window.addEventListener("mousemove", onMouseMove);
@@ -198,43 +296,28 @@ export default function Home() {
       {/* Structural layout wrapper */}
       <div className="layout-wrapper">
         
-        {/* Hero Section */}
-        <section id="about" className="hero-section">
-          <div className="hero-grid">
-            <div className="hero-left">
-              <span className="mono-label reveal-hero">[ CREARENA BUSINESS ACCELERATOR ]</span>
-              <h1 className="hero-title reveal-hero">
-                Startups <br />
-                Start Here.
-              </h1>
-              <p className="hero-description reveal-hero">
-                An elite ecosystem where high-value collective intelligence meets top-tier mentorship, multidisciplinary coaching, and premium collaborative workspaces.
-              </p>
-              <div className="stats-container">
-                <div className="stat-item">
-                  <div className="stat-number">+136</div>
-                  <div className="stat-label">Startups Accelerated</div>
-                </div>
-                <div className="stat-item">
-                  <div className="stat-number">$2.4B+</div>
-                  <div className="stat-label">Capital Raised</div>
-                </div>
-                <div className="stat-item">
-                  <div className="stat-number">98%</div>
-                  <div className="stat-label">Retention Rate</div>
-                </div>
+        {/* Centered Hero Section (Without 3D model) */}
+        <section id="about" className="hero-section-center">
+          <div className="hero-content-center">
+            <span className="mono-label reveal-hero">[ CREARENA BUSINESS ACCELERATOR ]</span>
+            <h1 className="hero-title reveal-hero">
+              <TextHighlighter type="underline" color="var(--accent-color)" delay={0.4}>Startups</TextHighlighter> Start <TextHighlighter type="highlight" color="#3b82f6" delay={0.8}>Here.</TextHighlighter>
+            </h1>
+            <p className="hero-description reveal-hero">
+              An elite ecosystem where high-value collective intelligence meets top-tier mentorship, multidisciplinary coaching, and premium collaborative workspaces.
+            </p>
+            <div className="stats-container-center">
+              <div className="stat-item-center">
+                <div className="stat-number">+136</div>
+                <div className="stat-label">Startups Accelerated</div>
               </div>
-            </div>
-            <div className="hero-right">
-              <div className="hero-visual-frame">
-                {/* Micro frame indicators */}
-                <div className="crosshair" style={{ top: "-5px", left: "-5px" }}></div>
-                <div className="crosshair" style={{ top: "-5px", right: "-5px" }}></div>
-                <div className="crosshair" style={{ bottom: "-5px", left: "-5px" }}></div>
-                <div className="crosshair" style={{ bottom: "-5px", right: "-5px" }}></div>
-                
-                {/* Dynamic WebGL gooey 3D Canvas */}
-                <ThreeCanvas modelPath={null} />
+              <div className="stat-item-center">
+                <div className="stat-number">$2.4B+</div>
+                <div className="stat-label">Capital Raised</div>
+              </div>
+              <div className="stat-item-center">
+                <div className="stat-number">98%</div>
+                <div className="stat-label">Retention Rate</div>
               </div>
             </div>
           </div>
@@ -282,15 +365,48 @@ export default function Home() {
                   <span className="glow-dot"></span>
                 </div>
                 
-                <div className="brand-card-logo-wrap">
-                  <Image 
-                    src={`/assets/brands/${brand.file}`} 
-                    alt={`${brand.name} Logo`} 
-                    width={140} 
-                    height={70} 
-                    className="brand-logo-img"
-                    priority={idx < 4}
-                  />
+                {/* 3D Flip Card Container */}
+                <div className="brand-card-square-wrapper">
+                  <div className="brand-card-square-inner">
+                    
+                    {/* Front Face: Brand Logo taking up full white square */}
+                    <div className="brand-card-square-front">
+                      <div style={{ position: "relative", width: "100%", height: "100%" }}>
+                        <Image 
+                          src={`/assets/brands/${brand.file}`} 
+                          alt={`${brand.name} Logo`} 
+                          fill
+                          style={{ objectFit: "contain" }}
+                          priority={idx < 4}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Back Face: Founder Details */}
+                    <div className="brand-card-square-back">
+                      <div className="founder-info-container">
+                        <div>
+                          <div className="founder-avatar-wrap">
+                            <img 
+                              src={brandFounders[brand.name]?.avatar} 
+                              alt={brandFounders[brand.name]?.name}
+                              className="founder-avatar-img"
+                              loading="lazy"
+                            />
+                          </div>
+                          <div className="founder-details">
+                            <h4 className="founder-name">{brandFounders[brand.name]?.name}</h4>
+                            <span className="founder-role">{brandFounders[brand.name]?.role}</span>
+                            <p className="founder-bio">{brandFounders[brand.name]?.bio}</p>
+                          </div>
+                        </div>
+                        <div className="founder-stats">
+                          {brandFounders[brand.name]?.stats}
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
 
                 <div style={{ borderTop: "1px solid var(--grid-color)", paddingTop: "1rem" }}>
