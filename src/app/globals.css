@@ -212,6 +212,10 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
 }
 
+.section-padding {
+  padding: 8rem 4rem;
+}
+
 /* Immersive Full-Screen WebGL Canvas container */
 .hero-canvas-bg {
   position: absolute;
@@ -877,7 +881,8 @@ body.cursor-hover .custom-cursor-follower {
   }
   
   /* Vertical Timeline Responsive Adjustments */
-  .timeline-section {
+  .timeline-section,
+  .section-padding {
     padding: 6rem 1.5rem;
   }
   .timeline-grid {
