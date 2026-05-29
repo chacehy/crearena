@@ -28,7 +28,7 @@ html, body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: var(--font-display);
-  overflow-x: hidden;
+  overflow-x: clip;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -880,15 +880,40 @@ body.cursor-hover .custom-cursor-follower {
   .timeline-section {
     padding: 6rem 1.5rem;
   }
-  .timeline-container {
-    gap: 6rem;
-  }
-  .timeline-row {
+  .timeline-grid {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2rem;
   }
-  .startup-visual-card {
-    max-width: 100%;
+  .timeline-center {
+    padding: 2rem 0;
+  }
+  .timeline-list {
+    padding-left: 0;
+    gap: 4rem;
+  }
+  .timeline-item {
+    opacity: 0.4;
+    transform: none !important;
+  }
+  .timeline-item.active {
+    opacity: 1;
+  }
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: block !important;
+  }
+  .mobile-inline-content {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease, margin 0.5s ease;
+  }
+  .timeline-item.active .mobile-inline-content {
+    max-height: 1500px;
+    opacity: 1;
+    margin-top: 1.5rem;
   }
 }
 
