@@ -418,7 +418,7 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  perspective: 1000px;
+  perspective: 2500px;
   cursor: pointer;
 }
 
