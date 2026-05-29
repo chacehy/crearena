@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import gsap from "gsap";
@@ -38,85 +38,109 @@ const brandFounders = {
   "Ai Gridd": {
     name: "Elena Rostova",
     role: "Founder & Chief Architect",
-    bio: "Former Lead AI Scientist at OpenAI. Building decentralized neural grid networks.",
-    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
+    tagline: "Decentralized AI Infrastructure",
+    journey: "Started in a basement with two developers, Ai Gridd built an open-source decentralized computing protocol to harness idle GPU power for AI training. The team pivoted during Cohort VI from developer tools to enterprise-level decentralized AI infrastructure, signing three major labs in their first month.",
+    goal: "To democratize high-performance computing power and eliminate the enterprise dependency on centralized cloud monopolies.",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400",
     stats: "Cohort VI // Infrastructure"
   },
   "Animax": {
     name: "Marcus Vance",
     role: "Co-Founder & CEO",
-    bio: "Ex-Pixar Technical Director. Revolutionizing real-time 3D animation pipelines with generative models.",
-    avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200",
+    tagline: "Generative Media & 3D Pipelines",
+    journey: "Founded by ex-Pixar engineers, Animax aimed to speed up the manual animation rendering pipeline. During their incubation, they developed a real-time diffusion-based rendering model that compresses weeks of production work into a few seconds, securing an exclusive pilot with a major streaming studio.",
+    goal: "To empower independent creators with cinematic-grade generative 3D rendering at their fingertips.",
+    avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400",
     stats: "Cohort VI // Gen Media"
   },
   "Brandium": {
     name: "Chloe de Silva",
     role: "Founder & Creative Director",
-    bio: "Award-winning designer. Automating enterprise brand identity systems with semantic design agents.",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
+    tagline: "Semantic Brand Identity Systems",
+    journey: "Brandium began as an agency automating visual design files. They recognized that enterprises struggle to maintain consistent brand guidelines across thousands of channels. They built a semantic design engine that learns a brand's DNA and automatically reviews, edits, and outputs tailored marketing assets.",
+    goal: "To scale enterprise brand management with instant, context-aware artificial design agents.",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400",
     stats: "Cohort V // Branding AI"
   },
   "Garden Of Babylone": {
     name: "Samir Al-Jamil",
     role: "Founder & CEO",
-    bio: "Agritech pioneer. Creating automated vertical farming systems optimized by machine learning.",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+    tagline: "Modular Autonomous Agriculture",
+    journey: "Coming from three generations of farmers, Samir combined agricultural heritage with deep machine learning. Garden of Babylone designed self-optimizing modular vertical farming towers. They scaled their pilot to five urban cities, reducing water usage by 95% while doubling average crop yields.",
+    goal: "To feed the next billion citizens through sustainable, high-density autonomous agriculture.",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400",
     stats: "Cohort VI // Smart Agri"
   },
   "Moushir": {
     name: "Nadir Halawi",
     role: "Co-Founder & CEO",
-    bio: "Ex-DHL Logistics Lead. Streamlining cross-border import-export clearance through real-time telemetry.",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
+    tagline: "Predictive Trade Logistics",
+    journey: "Moushir's founders spent years dealing with custom delays in international trade. They built a unified telemetry and documentation engine that uses predictive AI to preempt customs bottlenecks, cutting border processing times from average 5 days to under 4 hours.",
+    goal: "To build the operating system for frictionless, real-time global trade logistics.",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400",
     stats: "Cohort IV // Logistics"
   },
   "Tamwyl": {
     name: "Layla Belfort",
     role: "Co-Founder & Managing Partner",
-    bio: "Ex-Goldman Sachs Fintech VP. Decarbonizing SME trade finance pipelines across emerging markets.",
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
+    tagline: "Decarbonized Trade Finance",
+    journey: "Tamwyl saw that small-to-medium businesses in emerging markets were locked out of international trade financing. They built a ledger-backed decentralized risk scoring engine that connects SMEs to global liquidity, helping fund over $14M in local supply chains within 9 months.",
+    goal: "To close the $2.5 trillion global trade finance gap for emerging market merchants.",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400",
     stats: "Cohort VI // Fintech"
   },
   "candidli": {
     name: "Toby Mercer",
     role: "Founder & CEO",
-    bio: "HR tech innovator. Eliminating recruiter bias through anonymous zero-knowledge credential checks.",
-    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200",
+    tagline: "Cryptographic Credential Vetting",
+    journey: "candidli was founded to eliminate resume inflation and credential fraud. The team built a cryptographic vetting platform that allows candidates to prove their employment history, skills, and background using zero-knowledge proofs, without revealing sensitive private data.",
+    goal: "To establish the global trust layer for human capital and professional credentials.",
+    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400",
     stats: "Cohort V // HR Tech"
   },
   "click and win": {
     name: "Jin-Woo Park",
     role: "Co-Founder & Product Lead",
-    bio: "Ex-Tencent Senior PM. Scaling micro-transaction gaming platforms using high-throughput state networks.",
-    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=200",
+    tagline: "High-Throughput Play Economics",
+    journey: "Spun out of a leading mobile games studio, Click and Win designed a micro-payment ledger that handles millions of transactions per second. They transformed player engagement by introducing real-value ownership of digital game assets, growing their active user base to 450k players.",
+    goal: "To build the transaction layer for the next generation of digital play.",
+    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=400",
     stats: "Cohort VI // Web3 Play"
   },
   "confidrive": {
     name: "Sophia Martinez",
     role: "Founder & CEO",
-    bio: "Autonomous vehicle security expert. Securing autonomous fleet telemetry through decentralized edge ledgers.",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
+    tagline: "Autonomous Vehicle Cryptosecurity",
+    journey: "Determined to protect autonomous cars from spoofing attacks, Confidrive built a decentralized hardware-secured ledger. They successfully integrated their security SDK with two major autonomous vehicle fleets, protecting critical sensor and trajectory telemetry.",
+    goal: "To secure the autonomous vehicle networks that will drive our cities.",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400",
     stats: "Cohort VI // Autonomous"
   },
   "content is king": {
     name: "Arthur Pendelton",
     role: "Founder & CEO",
-    bio: "Digital media veteran. Empowering independent content creators with dynamic IP licensing engines.",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200",
+    tagline: "Smart Copyright Licensing",
+    journey: "The founders built Content Is King to solve the complex web of digital copyright licensing. They developed dynamic smart contracts that automatically distribute micro-royalties to musicians, writers, and visual artists when their work is sampled or shared.",
+    goal: "To ensure digital creators are instantly and fairly compensated across the decentralized web.",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400",
     stats: "Cohort V // IP Licensing"
   },
   "depanini": {
     name: "Yassine Mansour",
     role: "Founder & CEO",
-    bio: "On-demand economy expert. Optimizing hyper-local emergency maintenance dispatch networks.",
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
+    tagline: "P2P On-Demand Technical Dispatch",
+    journey: "Depanini launched to support local gig economy workers facing high platform fees. They developed a zero-take-rate peer-to-peer marketplace connecting clients with local plumbing, electrical, and maintenance technicians, helping workers earn 30% more per hour.",
+    goal: "To return platform value back to the hands of local service professionals.",
+    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400",
     stats: "Cohort VI // Gig Economy"
   },
   "piassa": {
     name: "Amara Okoye",
     role: "Co-Founder & CEO",
-    bio: "Fintech builder. Building hyper-local digital payment gateways for informal retail merchants in West Africa.",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200",
+    tagline: "Offline Financial Gateways",
+    journey: "Piassa built a lightweight mobile gateway to bring informal retail merchants in West Africa into the digital economy. Their application integrates SMS-based ledger technology with offline digital payments, processing over $2.1M in transactions across unbanked areas.",
+    goal: "To accelerate financial inclusion for Africa's 100 million informal micro-merchants.",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=400",
     stats: "Cohort VI // Payments"
   }
 };
@@ -224,23 +248,18 @@ export default function Home() {
       });
     });
 
-    // 6. Responsive GSAP Horizontal Scroll Pinning for Portfolio
-    const mm = gsap.matchMedia();
-    
-    // Apply horizontal scroll only on desktops (>900px width)
-    mm.add("(min-width: 901px)", () => {
-      const track = document.querySelector(".horizontal-scroll-track");
-      
-      gsap.to(track, {
-        x: () => -(track.scrollWidth - window.innerWidth + 64), // Offset for layout wrapper padding
-        ease: "none", // REQUIRED for smooth scrolling alignment
+    // 6. ScrollTrigger to reveal timeline rows as they enter viewport
+    const timelineRows = gsap.utils.toArray(".timeline-row");
+    timelineRows.forEach((row) => {
+      gsap.from(row, {
+        opacity: 0,
+        y: 50,
+        duration: 1.2,
+        ease: "power3.out",
         scrollTrigger: {
-          trigger: ".horizontal-scroll-container",
-          pin: true,
-          scrub: 1,
-          start: "top top",
-          end: () => `+=${track.scrollWidth - window.innerWidth}`,
-          invalidateOnRefresh: true, // Recalculate dimensions on window resize
+          trigger: row,
+          start: "top 85%",
+          toggleActions: "play none none none",
         }
       });
     });
@@ -265,7 +284,6 @@ export default function Home() {
         el.removeEventListener("mouseenter", onMouseEnter);
         el.removeEventListener("mouseleave", onMouseLeave);
       });
-      mm.revert();
     };
   }, { scope: containerRef });
 
@@ -352,107 +370,68 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Portfolio Showcase Section (GSAP Horizontal Scroll) */}
-        <section id="portfolio" className="horizontal-scroll-container">
-          <div className="horizontal-scroll-track">
-            
-            {/* Intro Slide */}
-            <div className="horizontal-intro-card">
-              <span className="mono-label">[ CHRONOLOGY OF GROWTH ]</span>
-              <h2 style={{ fontSize: "clamp(2.2rem, 3.8vw, 3.6rem)", marginTop: "1.2rem", textTransform: "uppercase" }}>
-                The Crearena Portfolio
-              </h2>
-              <p style={{ color: "var(--text-muted)", marginTop: "1.2rem", fontWeight: "300", lineHeight: "1.6" }}>
-                Invested in and scaled by Crearena. Drag/scroll to reveal our active category leaders.
-              </p>
-            </div>
-
-            {/* Brand Timeline Cards */}
-            {brands.map((brand, idx) => (
-              <div key={idx} className="brand-timeline-card">
-                <div className="brand-card-top">
-                  <span className="mono-label" style={{ fontSize: "0.6rem" }}>
-                    STG {(idx + 1).toString().padStart(2, "0")}
-                  </span>
-                  <span className="glow-dot"></span>
-                </div>
-                
-                {/* 3D Flip Card Container */}
-                <div className="brand-card-square-wrapper">
-                  <div className="brand-card-square-inner">
-                    
-                    {/* Front Face: Brand Logo taking up full white square */}
-                    <div className="brand-card-square-front">
-                      <div style={{ position: "relative", width: "100%", height: "100%" }}>
-                        <Image 
-                          src={`/assets/brands/${brand.file}`} 
-                          alt={`${brand.name} Logo`} 
-                          fill
-                          style={{ objectFit: "contain" }}
-                          priority={idx < 4}
+        {/* Portfolio Showcase Section (Vertical Side-by-Side Timeline) */}
+        <section id="portfolio" className="timeline-section">
+          <div className="grid-line-h" style={{ top: "0" }}></div>
+          
+          <div className="timeline-container">
+            {brands.map((brand, idx) => {
+              const founder = brandFounders[brand.name];
+              return (
+                <div key={idx} className="timeline-row">
+                  
+                  {/* Visual Card (Logo on front, morphs to founder on hover) */}
+                  <div className="startup-visual-card">
+                    <div className="startup-card-inner">
+                      {/* Front Face: Startup Logo */}
+                      <div className="startup-card-front">
+                        <div style={{ position: "relative", width: "100%", height: "100%" }}>
+                          <Image 
+                            src={`/assets/brands/${brand.file}`} 
+                            alt={`${brand.name} Logo`} 
+                            fill
+                            style={{ objectFit: "contain" }}
+                            priority={idx < 3}
+                          />
+                        </div>
+                      </div>
+                      {/* Back Face: Founder Portrait */}
+                      <div className="startup-card-back">
+                        <img 
+                          src={founder?.avatar} 
+                          alt={founder?.name}
+                          className="startup-portrait-img"
+                          loading="lazy"
                         />
                       </div>
                     </div>
+                  </div>
 
-                    {/* Back Face: Founder Details */}
-                    <div className="brand-card-square-back">
-                      <div className="founder-info-container">
-                        <div>
-                          <div className="founder-avatar-wrap">
-                            <img 
-                              src={brandFounders[brand.name]?.avatar} 
-                              alt={brandFounders[brand.name]?.name}
-                              className="founder-avatar-img"
-                              loading="lazy"
-                            />
-                          </div>
-                          <div className="founder-details">
-                            <h4 className="founder-name">{brandFounders[brand.name]?.name}</h4>
-                            <span className="founder-role">{brandFounders[brand.name]?.role}</span>
-                            <p className="founder-bio">{brandFounders[brand.name]?.bio}</p>
-                          </div>
-                        </div>
-                        <div className="founder-stats">
-                          {brandFounders[brand.name]?.stats}
-                        </div>
-                      </div>
+                  {/* Startup Details Column */}
+                  <div className="startup-details">
+                    <div className="startup-meta">
+                      <span className="startup-number">{(idx + 1).toString().padStart(2, "0")}</span>
+                      <span className="startup-cohort">{founder?.stats || "Cohort VI // Accelerator"}</span>
+                    </div>
+                    
+                    <div>
+                      <h2 className="startup-name">{brand.name}</h2>
                     </div>
 
+                    <h4 className="details-founders-title">{founder?.name}</h4>
+                    <span className="details-founders-role">{founder?.role}</span>
+                    
+                    <div className="details-journey-title">The Journey</div>
+                    <p className="details-journey-text">{founder?.journey}</p>
+                    
+                    <div className="details-goal-box">
+                      <p className="details-goal-text">{founder?.goal}</p>
+                    </div>
                   </div>
+
                 </div>
-
-                <div style={{ borderTop: "1px solid var(--grid-color)", paddingTop: "1rem" }}>
-                  <span style={{ fontSize: "0.85rem", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                    {brand.name}
-                  </span>
-                  <p style={{ fontSize: "0.7rem", color: "var(--text-muted)", fontFamily: "var(--font-technical)", marginTop: "0.2rem" }}>
-                    Accelerated // Cohort VI
-                  </p>
-                </div>
-              </div>
-            ))}
-
-            {/* Final Call To Action Card */}
-            <div className="next-opportunity-card">
-              <div className="next-card-highlight"></div>
-              <div className="brand-card-top" style={{ borderBottom: "none", paddingBottom: "0" }}>
-                <span className="mono-label" style={{ color: "var(--accent-color)" }}>COHORT VII / INTAKE</span>
-                <span className="glow-dot" style={{ backgroundColor: "var(--accent-color)" }}></span>
-              </div>
-              
-              <div style={{ margin: "2rem 0" }}>
-                <h3 style={{ fontSize: "2.4rem", textTransform: "uppercase", marginBottom: "1rem", lineHeight: "1.05" }}>
-                  You Could <br />
-                  Be Next.
-                </h3>
-                <p style={{ color: "var(--text-muted)", fontSize: "0.95rem", lineHeight: "1.5", fontWeight: "300" }}>
-                  Join the cohort of category-defining founders and scale your startup with elite capital and intelligence.
-                </p>
-              </div>
-
-              <button className="btn-premium" style={{ width: "100%" }}>INQUIRE NOW</button>
-            </div>
-
+              );
+            })}
           </div>
         </section>
 
