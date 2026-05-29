@@ -921,6 +921,13 @@ body.cursor-hover .custom-cursor-follower {
     opacity: 1;
     margin-top: 1.5rem;
   }
+  html, body {
+    cursor: auto !important;
+  }
+  .custom-cursor,
+  .custom-cursor-follower {
+    display: none !important;
+  }
 }
 
 /* Desktop utility display */

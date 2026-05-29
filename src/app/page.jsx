@@ -166,15 +166,17 @@ export default function Home() {
   ];
 
   useGSAP((context, contextSafe) => {
-    // 1. Custom Interactive Cursor
+    // 1. Custom Interactive Cursor (Desktop Only)
     const cursor = document.querySelector(".custom-cursor");
     const follower = document.querySelector(".custom-cursor-follower");
 
     const heroRight = document.querySelector(".hero-right");
 
     const onMouseMove = contextSafe((e) => {
-      gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.05, overwrite: "auto" });
-      gsap.to(follower, { x: e.clientX, y: e.clientY, duration: 0.15, overwrite: "auto" });
+      if (window.innerWidth > 900) {
+        gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.05, overwrite: "auto" });
+        gsap.to(follower, { x: e.clientX, y: e.clientY, duration: 0.15, overwrite: "auto" });
+      }
       if (heroRight) {
         const rect = heroRight.getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -186,19 +188,25 @@ export default function Home() {
 
     window.addEventListener("mousemove", onMouseMove);
 
-    // Interactive Hover State trigger for cursor scaling
+    // Interactive Hover State trigger for cursor scaling (Desktop Only)
     const hoverables = document.querySelectorAll("a, button, .brand-timeline-card, .btn-premium, .nav-item, .next-opportunity-card");
     const onMouseEnter = contextSafe(() => {
-      document.body.classList.add("cursor-hover");
+      if (window.innerWidth > 900) {
+        document.body.classList.add("cursor-hover");
+      }
     });
     const onMouseLeave = contextSafe(() => {
-      document.body.classList.remove("cursor-hover");
+      if (window.innerWidth > 900) {
+        document.body.classList.remove("cursor-hover");
+      }
     });
 
-    hoverables.forEach((el) => {
-      el.addEventListener("mouseenter", onMouseEnter);
-      el.addEventListener("mouseleave", onMouseLeave);
-    });
+    if (window.innerWidth > 900) {
+      hoverables.forEach((el) => {
+        el.addEventListener("mouseenter", onMouseEnter);
+        el.addEventListener("mouseleave", onMouseLeave);
+      });
+    }
 
     // 2. Horizontal Section Division Lines Revealer
     gsap.fromTo(".grid-line-h", 
@@ -249,17 +257,19 @@ export default function Home() {
       });
     });
 
-    // 6. ScrollTrigger to track active company index in the vertical timeline
-    const timelineItems = gsap.utils.toArray(".timeline-item");
-    timelineItems.forEach((item, index) => {
-      ScrollTrigger.create({
-        trigger: item,
-        start: "top 50%",
-        end: "bottom 50%",
-        onEnter: () => setActiveIndex(index),
-        onEnterBack: () => setActiveIndex(index),
+    // 6. ScrollTrigger to track active company index in the vertical timeline (Desktop Only)
+    if (window.innerWidth > 900) {
+      const timelineItems = gsap.utils.toArray(".timeline-item");
+      timelineItems.forEach((item, index) => {
+        ScrollTrigger.create({
+          trigger: item,
+          start: "top 50%",
+          end: "bottom 50%",
+          onEnter: () => setActiveIndex(index),
+          onEnterBack: () => setActiveIndex(index),
+        });
       });
-    });
+    }
 
     // 7. Stagger reveal Accelerator Pillars
     gsap.from(".pillar-card", {
@@ -420,10 +430,13 @@ export default function Home() {
                       key={idx} 
                       className={`timeline-item ${isCurrent ? "active" : ""}`}
                       onClick={() => {
-                        const elements = document.querySelectorAll(".timeline-item");
-                        if (elements[idx]) {
-                          elements[idx].scrollIntoView({ behavior: "smooth", block: "center" });
-                        }
+                        setActiveIndex(idx);
+                        setTimeout(() => {
+                          const elements = document.querySelectorAll(".timeline-item");
+                          if (elements[idx]) {
+                            elements[idx].scrollIntoView({ behavior: "smooth", block: "center" });
+                          }
+                        }, 50);
                       }}
                     >
                       <span className="timeline-number">{(idx + 1).toString().padStart(2, "0")}</span>
