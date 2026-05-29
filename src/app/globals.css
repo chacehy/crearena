@@ -148,13 +148,14 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 4rem;
   z-index: 100;
   border-bottom: 1px solid var(--grid-color);
-  background-color: rgba(17, 23, 41, 0.85);
+  background-color: rgba(247, 246, 243, 0.85);
   backdrop-filter: blur(12px);
 }
 
 .logo-link {
   display: flex;
   align-items: center;
+  color: var(--text-color);
 }
 
 .nav-links {
