@@ -418,7 +418,6 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  perspective: 2500px;
   cursor: pointer;
 }
 
@@ -428,10 +427,11 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
   transform-style: preserve-3d;
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: perspective(2500px) rotateY(0deg);
 }
 
 .timeline-visual-card:hover .timeline-card-inner {
-  transform: rotateY(180deg);
+  transform: perspective(2500px) rotateY(180deg);
 }
 
 .timeline-card-front,
