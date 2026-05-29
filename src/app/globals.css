@@ -66,7 +66,7 @@ html, body {
 .custom-cursor-follower {
   width: 40px;
   height: 40px;
-  border: 1px solid rgba(255, 85, 0, 0.4);
+  border: 1px solid rgba(255, 216, 0, 0.4);
   border-radius: 50%;
   position: fixed;
   transform: translate(-50%, -50%);
@@ -380,7 +380,7 @@ h1, h2, h3, h4, h5, h6 {
   filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.55));
 }
 
-/* Brands Timeline Showcase (Vertical Side-by-Side Timeline) */
+/* Brands Timeline Showcase (Vertical Sticky Scroll Reveal Timeline) */
 .timeline-section {
   position: relative;
   width: 100%;
@@ -388,25 +388,28 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--bg-color);
 }
 
-.timeline-container {
+.timeline-grid {
+  display: grid;
+  grid-template-columns: 380px 1fr 380px;
+  gap: 4rem;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
+  align-items: start;
+}
+
+.timeline-left, .timeline-right {
+  position: sticky;
+  top: 140px;
+  height: calc(100vh - 280px);
   display: flex;
   flex-direction: column;
-  gap: 12rem; /* Distinct separation between each startup details card */
+  justify-content: center;
+  overflow: hidden;
 }
 
-.timeline-row {
-  display: grid;
-  grid-template-columns: 420px 1fr;
-  gap: 6rem;
-  align-items: center;
-  width: 100%;
-}
-
-/* 3D Flip Card for startup visuals */
-.startup-visual-card {
+/* Big 3D Flip Card for sticky visual slot */
+.timeline-visual-card {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -414,7 +417,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
 }
 
-.startup-card-inner {
+.timeline-card-inner {
   position: relative;
   width: 100%;
   height: 100%;
@@ -422,12 +425,12 @@ h1, h2, h3, h4, h5, h6 {
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.startup-visual-card:hover .startup-card-inner {
+.timeline-visual-card:hover .timeline-card-inner {
   transform: rotateY(180deg);
 }
 
-.startup-card-front,
-.startup-card-back {
+.timeline-card-front,
+.timeline-card-back {
   position: absolute;
   top: 0;
   left: 0;
@@ -438,7 +441,7 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
-.startup-card-front {
+.timeline-card-front {
   background-color: #ffffff;
   border: 1px solid var(--grid-color-bright);
   display: flex;
@@ -449,60 +452,119 @@ h1, h2, h3, h4, h5, h6 {
   transform: rotateY(0deg);
 }
 
-.startup-card-back {
+.timeline-card-back {
   transform: rotateY(180deg);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   background-color: var(--bg-lighter);
   border: 1px solid var(--grid-color-bright);
 }
 
-.startup-portrait-img {
+.timeline-portrait-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Startup text details column */
-.startup-details {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+/* Center column scrollable list */
+.timeline-center {
+  position: relative;
+  padding: 30vh 0; /* Padding so first and last elements can be scrolled to the center */
 }
 
-.startup-meta {
+/* Center timeline vertical track line */
+.timeline-track-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50px; /* position it to the left of the names */
+  width: 1px;
+  background-color: var(--grid-color-bright);
+  z-index: 1;
+}
+
+/* Center sticky active circle indicator */
+.timeline-indicator-circle {
+  position: sticky;
+  top: 50%;
+  left: 38px; /* align with the line (50px - circle_radius) */
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-color);
+  background-color: var(--bg-color);
   display: flex;
   align-items: center;
-  gap: 1.2rem;
-  margin-bottom: 0.8rem;
+  justify-content: center;
+  z-index: 10;
+  transform: translateY(-50%);
 }
 
-.startup-number {
+.timeline-indicator-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--accent-text); /* dark gold/amber for high contrast */
+}
+
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15rem; /* space out items so they align with the center individually */
+  position: relative;
+  z-index: 2;
+  padding-left: 100px; /* indent to the right of the line */
+}
+
+.timeline-item {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  opacity: 0.2;
+  transform: scale(0.95);
+  transform-origin: left center;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.timeline-item.active {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.timeline-number {
   font-family: var(--font-technical);
   font-size: 0.85rem;
   color: var(--accent-text);
-  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.10em;
   font-weight: 700;
 }
 
-.startup-cohort {
-  font-family: var(--font-technical);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-.startup-name {
+.timeline-name {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-size: clamp(2rem, 3.8vw, 3.2rem);
   font-weight: 800;
   text-transform: uppercase;
   color: var(--text-color);
   line-height: 1.05;
-  margin-bottom: 1.5rem;
-  border-bottom: 2px solid var(--accent-color);
-  padding-bottom: 0.4rem;
-  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.timeline-cohort {
+  font-family: var(--font-technical);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 0.6rem;
+  letter-spacing: 0.12em;
+}
+
+/* Details panel styling (right sticky column) */
+.details-card-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 .details-founders-title {
@@ -560,6 +622,22 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.55;
   color: var(--text-color);
   font-weight: 400;
+}
+
+/* Timeline animations */
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: slideFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Accelerator Pillars */

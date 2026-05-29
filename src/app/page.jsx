@@ -147,6 +147,7 @@ const brandFounders = {
 
 export default function Home() {
   const containerRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   // Portfolio Brands Data (matching filenames in assets/brands)
   const brands = [
@@ -248,19 +249,15 @@ export default function Home() {
       });
     });
 
-    // 6. ScrollTrigger to reveal timeline rows as they enter viewport
-    const timelineRows = gsap.utils.toArray(".timeline-row");
-    timelineRows.forEach((row) => {
-      gsap.from(row, {
-        opacity: 0,
-        y: 50,
-        duration: 1.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: row,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        }
+    // 6. ScrollTrigger to track active company index in the vertical timeline
+    const timelineItems = gsap.utils.toArray(".timeline-item");
+    timelineItems.forEach((item, index) => {
+      ScrollTrigger.create({
+        trigger: item,
+        start: "top 50%",
+        end: "bottom 50%",
+        onEnter: () => setActiveIndex(index),
+        onEnterBack: () => setActiveIndex(index),
       });
     });
 
@@ -370,68 +367,137 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Portfolio Showcase Section (Vertical Side-by-Side Timeline) */}
+        {/* Portfolio Showcase Section (Vertical Sticky Timeline with Scroll Reveal) */}
         <section id="portfolio" className="timeline-section">
           <div className="grid-line-h" style={{ top: "0" }}></div>
           
-          <div className="timeline-container">
-            {brands.map((brand, idx) => {
-              const founder = brandFounders[brand.name];
-              return (
-                <div key={idx} className="timeline-row">
-                  
-                  {/* Visual Card (Logo on front, morphs to founder on hover) */}
-                  <div className="startup-visual-card">
-                    <div className="startup-card-inner">
-                      {/* Front Face: Startup Logo */}
-                      <div className="startup-card-front">
-                        <div style={{ position: "relative", width: "100%", height: "100%" }}>
-                          <Image 
-                            src={`/assets/brands/${brand.file}`} 
-                            alt={`${brand.name} Logo`} 
-                            fill
-                            style={{ objectFit: "contain" }}
-                            priority={idx < 3}
-                          />
+          <div className="timeline-grid">
+            
+            {/* Left Slot (Sticky Visuals) - Desktop Only */}
+            <div className="timeline-left desktop-only">
+              <div key={`visual-${activeIndex}`} className="timeline-visual-card animate-fade-in">
+                <div className="timeline-card-inner">
+                  {/* Front Face: Startup Logo */}
+                  <div className="timeline-card-front">
+                    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+                      <Image 
+                        src={`/assets/brands/${brands[activeIndex]?.file}`} 
+                        alt={`${brands[activeIndex]?.name} Logo`} 
+                        fill
+                        style={{ objectFit: "contain" }}
+                        priority
+                      />
+                    </div>
+                  </div>
+                  {/* Back Face: Founder Portrait */}
+                  <div className="timeline-card-back">
+                    <img 
+                      src={brandFounders[brands[activeIndex]?.name]?.avatar} 
+                      alt={brandFounders[brands[activeIndex]?.name]?.name}
+                      className="timeline-portrait-img"
+                      loading="eager"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Center Column (Scrollable List of Companies) */}
+            <div className="timeline-center">
+              {/* Timeline track vertical line - Desktop Only */}
+              <div className="timeline-track-line desktop-only"></div>
+              {/* Sticky indicator circle dot - Desktop Only */}
+              <div className="timeline-indicator-circle desktop-only">
+                <div className="timeline-indicator-dot"></div>
+              </div>
+
+              <div className="timeline-list">
+                {brands.map((brand, idx) => {
+                  const isCurrent = activeIndex === idx;
+                  const founder = brandFounders[brand.name];
+                  return (
+                    <div 
+                      key={idx} 
+                      className={`timeline-item ${isCurrent ? "active" : ""}`}
+                      onClick={() => {
+                        const elements = document.querySelectorAll(".timeline-item");
+                        if (elements[idx]) {
+                          elements[idx].scrollIntoView({ behavior: "smooth", block: "center" });
+                        }
+                      }}
+                    >
+                      <span className="timeline-number">{(idx + 1).toString().padStart(2, "0")}</span>
+                      <h3 className="timeline-name">{brand.name}</h3>
+                      <span className="timeline-cohort">{founder?.stats || "Accelerated // Cohort VI"}</span>
+                      
+                      {/* Mobile Inline Content - Accordion expanding when active */}
+                      <div className="mobile-only mobile-inline-content">
+                        {/* 3D Flip Visual Card inside mobile list */}
+                        <div className="timeline-visual-card" style={{ margin: "1.5rem 0" }}>
+                          <div className="timeline-card-inner">
+                            <div className="timeline-card-front">
+                              <div style={{ position: "relative", width: "100%", height: "100%" }}>
+                                <Image 
+                                  src={`/assets/brands/${brand.file}`} 
+                                  alt={`${brand.name} Logo`} 
+                                  fill
+                                  style={{ objectFit: "contain" }}
+                                />
+                              </div>
+                            </div>
+                            <div className="timeline-card-back">
+                              <img 
+                                src={founder?.avatar} 
+                                alt={founder?.name}
+                                className="timeline-portrait-img"
+                                loading="lazy"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Text details inside mobile list */}
+                        <div className="details-card-wrap">
+                          <h4 className="details-founders-title">{founder?.name}</h4>
+                          <span className="details-founders-role">{founder?.role}</span>
+                          
+                          <div className="details-journey-title" style={{ marginTop: "1.5rem" }}>The Journey</div>
+                          <p className="details-journey-text">{founder?.journey}</p>
+                          
+                          <div className="details-goal-box">
+                            <p className="details-goal-text">{founder?.goal}</p>
+                          </div>
                         </div>
                       </div>
-                      {/* Back Face: Founder Portrait */}
-                      <div className="startup-card-back">
-                        <img 
-                          src={founder?.avatar} 
-                          alt={founder?.name}
-                          className="startup-portrait-img"
-                          loading="lazy"
-                        />
-                      </div>
                     </div>
-                  </div>
+                  );
+                })}
+              </div>
+            </div>
 
-                  {/* Startup Details Column */}
-                  <div className="startup-details">
-                    <div className="startup-meta">
-                      <span className="startup-number">{(idx + 1).toString().padStart(2, "0")}</span>
-                      <span className="startup-cohort">{founder?.stats || "Cohort VI // Accelerator"}</span>
-                    </div>
-                    
-                    <div>
-                      <h2 className="startup-name">{brand.name}</h2>
-                    </div>
-
-                    <h4 className="details-founders-title">{founder?.name}</h4>
-                    <span className="details-founders-role">{founder?.role}</span>
-                    
-                    <div className="details-journey-title">The Journey</div>
-                    <p className="details-journey-text">{founder?.journey}</p>
-                    
-                    <div className="details-goal-box">
-                      <p className="details-goal-text">{founder?.goal}</p>
-                    </div>
-                  </div>
-
+            {/* Right Slot (Sticky Text Details) - Desktop Only */}
+            <div className="timeline-right desktop-only">
+              <div key={`details-${activeIndex}`} className="details-card-wrap animate-fade-in">
+                <h4 className="details-founders-title">
+                  {brandFounders[brands[activeIndex]?.name]?.name}
+                </h4>
+                <span className="details-founders-role">
+                  {brandFounders[brands[activeIndex]?.name]?.role}
+                </span>
+                
+                <div className="details-journey-title">The Journey</div>
+                <p className="details-journey-text">
+                  {brandFounders[brands[activeIndex]?.name]?.journey}
+                </p>
+                
+                <div className="details-goal-box">
+                  <p className="details-goal-text">
+                    {brandFounders[brands[activeIndex]?.name]?.goal}
+                  </p>
                 </div>
-              );
-            })}
+              </div>
+            </div>
+
           </div>
         </section>
 
