@@ -505,7 +505,7 @@ export default function Home() {
         <section id="pillars" className="section-padding" style={{ position: "relative", backgroundColor: "var(--bg-darker)" }}>
           <div className="grid-line-h" style={{ top: "0" }}></div>
           
-          <div style={{ marginBottom: "5rem" }} className="section-reveal">
+          <div style={{ marginBottom: "5rem", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }} className="section-reveal">
             <span className="mono-label">[ SYSTEM OPERATION ]</span>
             <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 3.8rem)", marginTop: "1.2rem", textTransform: "uppercase" }}>
               Our Acceleration Pillars
@@ -547,7 +547,7 @@ export default function Home() {
         <section className="section-padding" style={{ position: "relative" }}>
           <div className="grid-line-h" style={{ top: "0" }}></div>
           
-          <div style={{ marginBottom: "4rem" }} className="section-reveal">
+          <div style={{ marginBottom: "4rem", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }} className="section-reveal">
             <span className="mono-label">[ MATERIAL EVIDENCE ]</span>
             <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 3.8rem)", marginTop: "1.2rem", textTransform: "uppercase" }}>
               Physical & Identity Collateral
