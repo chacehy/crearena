@@ -1,9 +1,9 @@
 /* Custom styling system for Crearena visual identity */
 
 :root {
-  --bg-color: #f7f6f3;
+  --bg-color: #faf6ee;
   --bg-lighter: #ffffff;
-  --bg-darker: #f0eee9;
+  --bg-darker: #f4eee1;
   --text-color: #0e0f11;
   --text-muted: #5e6168;
   --accent-color: #ffd800;
@@ -148,7 +148,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 4rem;
   z-index: 100;
   border-bottom: 1px solid var(--grid-color);
-  background-color: rgba(247, 246, 243, 0.85);
+  background-color: rgba(250, 246, 238, 0.85);
   backdrop-filter: blur(12px);
 }
 
